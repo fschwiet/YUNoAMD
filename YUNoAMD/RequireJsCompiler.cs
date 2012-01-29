@@ -1,33 +1,62 @@
 using System;
 using System.IO;
+using System.Text;
+using System.Web.Script.Serialization;
 using Jurassic;
 
 namespace YUNoAMD
 {
     public class RequireJsCompiler
     {
+        private ScriptEngine _jsEngine;
+        private const string _resourceBaseUrl = "http://requirejs.resources/";
 
         public RequireJsCompiler()
         {
-            ScriptEngine jsEngine = new Jurassic.ScriptEngine();
+            _jsEngine = new Jurassic.ScriptEngine();
 
-            jsEngine.Evaluate(LoadResource("require.js"));
-            jsEngine.Evaluate(LoadResource("json2.js"));
-            jsEngine.Evaluate(LoadResource("adapt\rhino.js"));
+            _jsEngine.Evaluate(LoadResource("require.js"));
+            _jsEngine.Evaluate(LoadResource("json2.js"));
+            _jsEngine.Evaluate(LoadResource(@"adapt\rhino.js"));
 
-            jsEngine.Evaluate(@"require({ baseUrl:'http://requirejs.resources/'});");
+            _jsEngine.Evaluate("require(" + new JavaScriptSerializer().Serialize(new {
+                baseUrl = _resourceBaseUrl
+            }) + ");");
 
             var ioAdapter = new IOAdapter();
 
-            jsEngine.SetGlobalFunction("print", (Action<string>)ioAdapter.print);
-            jsEngine.SetGlobalFunction("warn", (Action<string,int,string,int>)ioAdapter.warn);
-            jsEngine.SetGlobalFunction("readFile", (Func<string,string>)ioAdapter.readFile);
-            jsEngine.SetGlobalFunction("load", (Action<string>)ioAdapter.load);
+            _jsEngine.SetGlobalFunction("print", (Action<string>)ioAdapter.print);
+            _jsEngine.SetGlobalFunction("warn", (Action<string,int,string,int>)ioAdapter.warn);
+            _jsEngine.SetGlobalFunction("readFile", (Func<string,string>)ioAdapter.readFile);
+            _jsEngine.SetGlobalFunction("load", (Action<string>)ioAdapter.load);
         }
 
-        public string Compile(string appPath)
+        public string Compile(string filePath)
         {
-            return File.ReadAllText(appPath);
+            string appName = filePath;
+            if (appName.EndsWith(".js", StringComparison.InvariantCultureIgnoreCase))
+                appName = appName.Substring(0, appName.LastIndexOf(".js"));
+            
+
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine("(function(){ // " + filePath);
+            sb.AppendLine("var arguments = ");
+            sb.AppendLine(new JavaScriptSerializer().Serialize(new object[]
+            {
+                "",
+                "",
+                "name=" + appName,
+                "out=" + "c:\\outpuatPath\\hmm.txt",
+                "baseUrl=" 
+            }));
+
+            sb.AppendLine(LoadResource(@"build\build.js"));
+
+            sb.AppendLine("})();");
+
+            _jsEngine.Execute(sb.ToString());
+
+            return File.ReadAllText(filePath);
         }
 
         private string LoadResource(string path)
