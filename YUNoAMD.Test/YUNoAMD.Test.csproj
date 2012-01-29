@@ -67,6 +67,12 @@
     </None>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\YUNoAMD\YUNoAMD.csproj">
+      <Project>{BB9C7483-131F-4EF5-AD38-E0C1B15269CB}</Project>
+      <Name>YUNoAMD</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

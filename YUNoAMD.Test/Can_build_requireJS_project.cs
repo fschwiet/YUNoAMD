@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -30,18 +29,10 @@ namespace YUNoAMD.Test
                     {
                         var expectedCode = File.ReadAllText(Path.Combine(projectPath, "compiled.js"));
 
-                        expect(() => compiledCode == expectedCode);
+                        Assert.That(compiledCode, Is.EqualTo(expectedCode));
                     });
                 });
             });
-        }
-    }
-
-    public class RequireJsCompiler
-    {
-        public string Compile(string appPath)
-        {
-            throw new NotImplementedException();
         }
     }
 }
