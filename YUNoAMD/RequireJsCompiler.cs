@@ -1,13 +1,15 @@
 using System;
 using System.IO;
+using Jurassic;
 
 namespace YUNoAMD
 {
     public class RequireJsCompiler
     {
-        public string Compile(string appPath)
+
+        public RequireJsCompiler()
         {
-            var jsEngine = new Jurassic.ScriptEngine();
+            ScriptEngine jsEngine = new Jurassic.ScriptEngine();
 
             jsEngine.Evaluate(LoadResource("require.js"));
             jsEngine.Evaluate(LoadResource("json2.js"));
@@ -17,9 +19,14 @@ namespace YUNoAMD
 
             var ioAdapter = new IOAdapter();
 
-            jsEngine.SetGlobalFunction("print", new Action<string>(s => {}));
+            jsEngine.SetGlobalFunction("print", (Action<string>)ioAdapter.print);
+            jsEngine.SetGlobalFunction("warn", (Action<string,int,string,int>)ioAdapter.warn);
+            jsEngine.SetGlobalFunction("readFile", (Func<string,string>)ioAdapter.readFile);
+            jsEngine.SetGlobalFunction("load", (Action<string>)ioAdapter.load);
+        }
 
-
+        public string Compile(string appPath)
+        {
             return File.ReadAllText(appPath);
         }
 

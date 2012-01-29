@@ -18,5 +18,10 @@ namespace YUNoAMD
         {
             throw new NotImplementedException();
         }
+
+        public void load(string path)
+        {
+            
+        }
     }
 }
