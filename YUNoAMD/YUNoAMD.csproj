@@ -31,6 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Jurassic">
+      <HintPath>..\packages\Jurassic.2.1.1\lib\Jurassic.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -40,8 +43,117 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IOAdapter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RequireJsCompiler.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="requireJS\adapt\dist.js" />
+    <Content Include="requireJS\adapt\node.js" />
+    <Content Include="requireJS\adapt\rhino.js" />
+    <Content Include="requireJS\adapt\tests\all.js" />
+    <Content Include="requireJS\adapt\tests\alpha.js" />
+    <Content Include="requireJS\adapt\tests\beta.js" />
+    <Content Include="requireJS\adapt\tests\node\canvasTest.js" />
+    <Content Include="requireJS\adapt\tests\node\index.js" />
+    <Content Include="requireJS\adapt\tests\node\tests\alpha\foo.js" />
+    <Content Include="requireJS\adapt\tests\node\tests\alpha\hello.html" />
+    <Content Include="requireJS\adapt\tests\node\tests\foo.js" />
+    <Content Include="requireJS\adapt\tests\node\tests\server.js" />
+    <Content Include="requireJS\adapt\tests\relative.js" />
+    <Content Include="requireJS\adapt\tests\sub\betaSub.js" />
+    <Content Include="requireJS\bin\x.js" />
+    <Content Include="requireJS\build\build.js" />
+    <Content Include="requireJS\build\convert\commonjs\convert.js" />
+    <Content Include="requireJS\build\convert\stealjs\parse.js" />
+    <Content Include="requireJS\build\convert\stealjs\tests\all.js" />
+    <Content Include="requireJS\build\convert\stealjs\tests\parse.js" />
+    <Content Include="requireJS\build\jslib\build.js" />
+    <Content Include="requireJS\build\jslib\commandLine.js" />
+    <Content Include="requireJS\build\jslib\commonJs.js" />
+    <Content Include="requireJS\build\jslib\env.js" />
+    <Content Include="requireJS\build\jslib\lang.js" />
+    <Content Include="requireJS\build\jslib\logger.js" />
+    <Content Include="requireJS\build\jslib\node\args.js" />
+    <Content Include="requireJS\build\jslib\node\file.js" />
+    <Content Include="requireJS\build\jslib\node\load.js" />
+    <Content Include="requireJS\build\jslib\node\optimize.js" />
+    <Content Include="requireJS\build\jslib\node\print.js" />
+    <Content Include="requireJS\build\jslib\optimize.js" />
+    <Content Include="requireJS\build\jslib\parse.js" />
+    <Content Include="requireJS\build\jslib\pragma.js" />
+    <Content Include="requireJS\build\jslib\requirePatch.js" />
+    <Content Include="requireJS\build\jslib\rhino\args.js" />
+    <Content Include="requireJS\build\jslib\rhino\file.js" />
+    <Content Include="requireJS\build\jslib\rhino\load.js" />
+    <Content Include="requireJS\build\jslib\rhino\optimize.js" />
+    <Content Include="requireJS\build\jslib\rhino\print.js" />
+    <Content Include="requireJS\build\jslib\uglifyjs\index.js" />
+    <Content Include="requireJS\build\jslib\uglifyjs\parse-js.js" />
+    <Content Include="requireJS\build\jslib\uglifyjs\process.js" />
+    <Content Include="requireJS\build\jslib\uglifyjs\squeeze-more.js" />
+    <Content Include="requireJS\dist\dist-site.js" />
+    <Content Include="requireJS\dist\fonts\PT-Sans\Paratype PT Sans Free Font License.txt" />
+    <Content Include="requireJS\dist\ie.css" />
+    <Content Include="requireJS\dist\init.js" />
+    <Content Include="requireJS\dist\main.css" />
+    <Content Include="requireJS\dist\post.html" />
+    <Content Include="requireJS\dist\pre.html" />
+    <Content Include="requireJS\docs\api.html" />
+    <Content Include="requireJS\docs\commonjs.html" />
+    <Content Include="requireJS\docs\contributing.html" />
+    <Content Include="requireJS\docs\dojo.html" />
+    <Content Include="requireJS\docs\download.html" />
+    <Content Include="requireJS\docs\faq-advanced.html" />
+    <Content Include="requireJS\docs\faq-optimization.html" />
+    <Content Include="requireJS\docs\faq.html" />
+    <Content Include="requireJS\docs\history.html" />
+    <Content Include="requireJS\docs\jquery-require-sample\webapp\app.html" />
+    <Content Include="requireJS\docs\jquery-require-sample\webapp\scripts\app.build.js" />
+    <Content Include="requireJS\docs\jquery-require-sample\webapp\scripts\jquery-GPL-LICENSE.txt" />
+    <Content Include="requireJS\docs\jquery-require-sample\webapp\scripts\jquery-MIT-LICENSE.txt" />
+    <Content Include="requireJS\docs\jquery-require-sample\webapp\scripts\jquery.alpha.js" />
+    <Content Include="requireJS\docs\jquery-require-sample\webapp\scripts\jquery.beta.js" />
+    <Content Include="requireJS\docs\jquery-require-sample\webapp\scripts\jquery.js" />
+    <Content Include="requireJS\docs\jquery-require-sample\webapp\scripts\main.js" />
+    <Content Include="requireJS\docs\jquery.html" />
+    <Content Include="requireJS\docs\node.html" />
+    <Content Include="requireJS\docs\optimization.html" />
+    <Content Include="requireJS\docs\plugins.html" />
+    <Content Include="requireJS\docs\requirements.html" />
+    <Content Include="requireJS\docs\start.html" />
+    <Content Include="requireJS\docs\why.html" />
+    <Content Include="requireJS\i18n.js" />
+    <Content Include="requireJS\index.html" />
+    <Content Include="requireJS\json2.js" />
+    <Content Include="requireJS\order.js" />
+    <Content Include="requireJS\require.js" />
+    <Content Include="requireJS\tasks.txt" />
+    <Content Include="requireJS\testBaseUrl.js" />
+    <Content Include="requireJS\text.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+    <None Include="requireJS\build\convert\commonjs\convert.bat" />
+    <None Include="requireJS\build\convert\commonjs\convert.sh" />
+    <None Include="requireJS\build\jslib\uglifyjs\README.md" />
+    <None Include="requireJS\dist\dist-build.sh" />
+    <None Include="requireJS\dist\fonts\Inconsolata.ttf" />
+    <None Include="requireJS\dist\fonts\PT-Sans\PT_Sans.ttf" />
+    <None Include="requireJS\dist\fonts\PT-Sans\PT_Sans_Bold.ttf" />
+    <None Include="requireJS\dist\fonts\PT-Sans\PT_Sans_Bold_Italic.ttf" />
+    <None Include="requireJS\dist\fonts\PT-Sans\PT_Sans_Caption.ttf" />
+    <None Include="requireJS\dist\fonts\PT-Sans\PT_Sans_Caption_Bold.ttf" />
+    <None Include="requireJS\dist\fonts\PT-Sans\PT_Sans_Italic.ttf" />
+    <None Include="requireJS\dist\fonts\PT-Sans\PT_Sans_Narrow.ttf" />
+    <None Include="requireJS\dist\fonts\PT-Sans\PT_Sans_Narrow_Bold.ttf" />
+    <None Include="requireJS\dist\Markdown-License.text" />
+    <None Include="requireJS\dist\Markdown.pl" />
+    <None Include="requireJS\dist\README.md" />
+    <None Include="requireJS\docs\design\packages.md" />
+    <None Include="requireJS\docs\jquery-require-sample\dist.sh" />
+    <None Include="requireJS\LICENSE" />
+    <None Include="requireJS\README.md" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
