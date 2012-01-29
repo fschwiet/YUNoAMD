@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -23,7 +24,7 @@ namespace YUNoAMD.Test
 
                 when("that project's app file is compiled", delegate()
                 {
-                    var compiledCode = arrange(() => new RequireJsCompiler().Compile(appPath));
+                    var compiledCode = arrange(() => new RequireJsCompiler(Console.Out).Compile(appPath));
 
                     then("the compiled code equals the expected result", delegate()
                     {

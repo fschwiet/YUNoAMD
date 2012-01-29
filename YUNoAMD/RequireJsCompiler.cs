@@ -11,7 +11,7 @@ namespace YUNoAMD
         private ScriptEngine _jsEngine;
         private const string _resourceBaseUrl = "http://requirejs.resources/";
 
-        public RequireJsCompiler()
+        public RequireJsCompiler(TextWriter consoleOut)
         {
             _jsEngine = new Jurassic.ScriptEngine();
 
@@ -23,13 +23,15 @@ namespace YUNoAMD
                 baseUrl = _resourceBaseUrl
             }) + ");");
 
-            var ioAdapter = new IOAdapter();
+            var ioAdapter = new IOAdapter(consoleOut);
 
-            _jsEngine.SetGlobalFunction("print", (Action<string>)ioAdapter.print);
+            _jsEngine.SetGlobalFunction("print", (PrintDelegate)ioAdapter.print);
             _jsEngine.SetGlobalFunction("warn", (Action<string,int,string,int>)ioAdapter.warn);
             _jsEngine.SetGlobalFunction("readFile", (Func<string,string>)ioAdapter.readFile);
             _jsEngine.SetGlobalFunction("load", (Action<string>)ioAdapter.load);
         }
+
+        private delegate void PrintDelegate(params string[] messages);
 
         public string Compile(string filePath)
         {
@@ -63,9 +65,6 @@ namespace YUNoAMD
         {
             var assembly = this.GetType().Assembly;
 
-            foreach (var name in assembly.GetManifestResourceNames())
-                Console.WriteLine(name);
-
             var resourceName = this.GetType().Namespace + ".requireJS." + path.Replace('\\', '.');
             using(var stream = assembly.GetManifestResourceStream(resourceName))
             {
@@ -81,6 +80,11 @@ namespace YUNoAMD
                     throw new Exception(string.Format("Unable to find resource {0} at {1}.", path, resourceName), e);
                 }
             }
+        }
+
+        public void Run(string code)
+        {
+            _jsEngine.Evaluate(code);
         }
     }
 }
