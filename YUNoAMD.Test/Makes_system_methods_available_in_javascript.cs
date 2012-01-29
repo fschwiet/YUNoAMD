@@ -16,18 +16,28 @@ namespace YUNoAMD.Test
 
             describe("print", delegate()
             {
-                it("passes a message to the console", delegate()
+                it("writes the message to the console", delegate()
                 {
                     compiler.Run("print('123')");
 
                     expect(() => writer.ToString() == "123" + writer.NewLine);
                 });
 
-                it("passes multiple messages to the console", delegate()
+                it("writes multiple messages to the console", delegate()
                 {
                     compiler.Run("print('123','456',789);");
 
                     expect(() => writer.ToString() == "123" + writer.NewLine + "456" + writer.NewLine + "789" + writer.NewLine);
+                });
+            });
+
+            describe("warn", delegate()
+            {
+                it("writes a warning to the console", delegate()
+                {
+                    compiler.Run("warn('message',1,'source.js', 3)");
+
+                    expect(() => writer.ToString() == "WARNING: source.js:1:3  message" + writer.NewLine);
                 });
             });
         }
