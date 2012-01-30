@@ -75,29 +75,30 @@ namespace YUNoAMD.Test.Can_build_requireJS_environment
                 });
             }
 
-
-            foreach(var expression in new Dictionary<string,string>()
+            describe("statSync", delegate()
             {
-                {"fileStats.isFile()", "true"},
-                {"dirStats.isFile()", "false"},
-                {"fileStats.isDirectory()", "false"},
-                {"dirStats.isDirectory()", "false"}
-            })
-            it("gives statSync expression " + expression.Key + " as " + expression.Value, delegate()
-            {
-                context.compiler.Execute(writeScript);
+                foreach (var expression in new Dictionary<string, string>()
+                {
+                    {"fileStats.isFile()", "true"},
+                    {"dirStats.isFile()", "false"},
+                    {"fileStats.isDirectory()", "false"},
+                    {"dirStats.isDirectory()", "false"}
+                })
+                    it("evalutes expression " + expression.Key + " as " + expression.Value, delegate()
+                    {
+                        context.compiler.Execute(writeScript);
 
-                var statScript = @"
+                        var statScript = @"
 require(['fs', 'print'], function(fs, print) { 
     var fileStats = fs.statSync(" + Serialize(targetPath) + @");
     var dirStats = fs.statSync(" + Serialize(new FileInfo(targetPath).Directory.FullName) + @");
-    print(JSON.stringify(fileStats));
-    //print(" + expression.Key + @");
+    print(" + expression.Key + @");
 });";
 
-                context.compiler.Execute(statScript);
+                        context.compiler.Execute(statScript);
 
-                context.ExpectLines(expression.Value);
+                        context.ExpectLines(expression.Value);
+                    });
             });
         }
 
