@@ -23,16 +23,6 @@ namespace YUNoAMD.Test.Can_build_requireJS_environment
 
                 context.ExpectLines("123", "456", "789");
             });
-
-            describe("warn", delegate()
-            {
-                it("writes a warning to the console", delegate()
-                {
-                    context.compiler.Evaluate("ioe.warn('message',1,'source.js', 3)");
-
-                    context.ExpectLines("WARNING: source.js:1:3  message");
-                });
-            });
         }
     }
 }
