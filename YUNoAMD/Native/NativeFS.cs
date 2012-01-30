@@ -7,15 +7,27 @@ namespace YUNoAMD.Native
 {
     public class NativeFS : NativeBase
     {
-        public NativeFS(ScriptEngine engine) : base(engine)
-        {
+        private readonly string _currentPath;
 
+        public NativeFS(ScriptEngine engine, string currentPath) : base(engine)
+        {
+            _currentPath = currentPath;
+        }
+
+        private string AbsolutePath(string path)
+        {
+            if (path.StartsWith("."))
+                path = path.Substring(1).TrimStart('\\', '/');
+
+            return Path.Combine(_currentPath, path);
         }
 
         [JSFunction(Name = "writeFileSync")]
         public void writeFileSync(string path, string content, string encoding)
         {
             CheckEncoding(encoding);
+
+            path = AbsolutePath(path);
 
             Directory.CreateDirectory(new FileInfo(path).Directory.FullName);
 
@@ -26,6 +38,8 @@ namespace YUNoAMD.Native
         public string readFileSync(string path, string encoding)
         {
             CheckEncoding(encoding);
+
+            path = AbsolutePath(path);
 
             return File.ReadAllText(path);
         }
@@ -43,6 +57,12 @@ namespace YUNoAMD.Native
                 throw new JavaScriptException(_engine, "Error", "Unexpected permission: " + permissions);
 
             Directory.CreateDirectory(path);
+        }
+
+        [JSFunction(Name="realpathSync")]
+        public string realpathSync(string path)
+        {
+            return AbsolutePath(path);
         }
     }
 }

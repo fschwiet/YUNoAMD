@@ -13,15 +13,18 @@ namespace YUNoAMD.Test.Can_build_requireJS_environment
     {
         public override void Specify()
         {
-            var context = new CompilerUsage(this);
-
             var testDirectory = Path.Combine(Path.GetTempPath(), "YUNoAMD.Test");
+
+            var context = new CompilerUsage(this, testDirectory);
+
             arrange(() => DirectoryUtil.DeleteDirectory(testDirectory));
 
             describe("supports read and write", delegate()
             {
                 var expectedContent = Guid.NewGuid().ToString();
-                var targetPath = arrange(() => Path.Combine(testDirectory, "wrote.txt"));
+                string relativeTargetPath = @"la\de\da\wrote.txt";
+                var targetPath = arrange(() => Path.Combine(testDirectory, relativeTargetPath));
+
                 var writeScript = arrange(() =>  "require(['fs'], function(fs) { fs.writeFileSync( "
                     + Serialize(targetPath) + ", " + Serialize(expectedContent) + ",'utf8'); });");
 
@@ -57,6 +60,21 @@ namespace YUNoAMD.Test.Can_build_requireJS_environment
 
                     expect(() => Directory.Exists(otherDirectory));
                 });
+
+                foreach(var pathVariation in new[] { relativeTargetPath, ".\\" + relativeTargetPath})
+                {
+                    it("can make a relative path absolute", delegate()
+                    {
+                        context.compiler.Execute(writeScript);
+
+                        var realScript = arrange(() => "require(['fs', 'print'], function(fs, print) { print(fs.realpathSync( "
+                            + Serialize(pathVariation) + ",'utf8')); });");
+
+                        context.compiler.Execute(realScript);
+
+                        context.ExpectLines(targetPath);
+                    });
+                }
             });
         }
 

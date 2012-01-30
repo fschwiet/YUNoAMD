@@ -15,7 +15,7 @@ namespace YUNoAMD
         IOAdapter _ioAdapter;
         NativeFS _fs;
         
-        public RequireJsCompiler(TextWriter consoleOut)
+        public RequireJsCompiler(TextWriter consoleOut, string currentDirectory)
         {
             _jsEngine = new ScriptEngine();
 
@@ -27,7 +27,7 @@ namespace YUNoAMD
                 baseUrl = ResourceBaseUrl
             }) + ");");
 
-            _fs = new NativeFS(_jsEngine);
+            _fs = new NativeFS(_jsEngine, currentDirectory);
             _jsEngine.SetGlobalValue("YUNoFS", _fs);
 
             _ioAdapter = new IOAdapter(_jsEngine, consoleOut);

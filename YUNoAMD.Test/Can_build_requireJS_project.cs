@@ -24,7 +24,8 @@ namespace YUNoAMD.Test
 
                 when("that project's app file is compiled", delegate()
                 {
-                    var compiledCode = arrange(() => new RequireJsCompiler(Console.Out).Compile(appPath));
+                    var context = new CompilerUsage(this);
+                    var compiledCode = arrange(() => context.compiler.Compile(appPath));
 
                     then("the compiled code equals the expected result", delegate()
                     {

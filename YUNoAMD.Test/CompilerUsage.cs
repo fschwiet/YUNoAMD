@@ -10,10 +10,10 @@ namespace YUNoAMD.Test
         private StringWriter _writer;
         public RequireJsCompiler compiler;
 
-        public CompilerUsage(GivenWhenThenFixture fixture)
+        public CompilerUsage(GivenWhenThenFixture fixture, string baseDirectory = null)
         {
             _writer = new StringWriter();
-            compiler = fixture.arrange(() => new RequireJsCompiler(_writer));
+            compiler = fixture.arrange(() => new RequireJsCompiler(_writer, baseDirectory));
         }
 
         public void ExpectLines(params string[] lines)
