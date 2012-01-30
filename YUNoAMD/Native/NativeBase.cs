@@ -7,7 +7,7 @@ namespace YUNoAMD.Native
     {
         protected ScriptEngine _engine;
 
-        protected NativeBase(ScriptEngine engine) : base(engine)
+        protected NativeBase(ScriptEngine engine) : base(engine.Object)
         {
             _engine = engine;
             this.PopulateFunctions();

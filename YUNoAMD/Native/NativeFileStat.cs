@@ -11,6 +11,7 @@ namespace YUNoAMD.Native
         public NativeFileStat(ScriptEngine engine, string path) : base(engine)
         {
             _path = path;
+            this.DefineProperty("mtime", new PropertyDescriptor(new mtime(_engine, path), PropertyAttributes.Enumerable | PropertyAttributes.FullAccess), true);
         }
 
         [JSFunction(Name = "isFile")]
@@ -23,6 +24,22 @@ namespace YUNoAMD.Native
         public bool isDirectory()
         {
             return Directory.Exists(_path);
+        }
+
+        public class mtime : NativeBase
+        {
+            private readonly string _path;
+
+            public mtime(ScriptEngine engine, string path) : base(engine)
+            {
+                _path = path;
+            }
+
+            [JSFunction(Name = "getTime")]
+            public double getTime()
+            {
+                return (new FileInfo(_path).LastWriteTimeUtc.ToFileTimeUtc());
+            }
         }
     }
 }

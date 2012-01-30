@@ -21,7 +21,7 @@ namespace YUNoAMD.Test
             Assert.That(GetLines(), Is.EquivalentTo(lines));
         }
 
-        private String[] GetLines()
+        public String[] GetLines()
         {
             return _writer.ToString().Split(new[] { _writer.NewLine }, StringSplitOptions.RemoveEmptyEntries);
         }

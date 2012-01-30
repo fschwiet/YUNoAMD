@@ -1,31 +1,15 @@
 pending question on jurassic: http://jurassic.codeplex.com/discussions/287820#post732435
 
-statSync.mtime.getTime()
-statSync.isFile()
-statSync.isDirectory()
-
 
 
 implement the next module (file) so the read/write code is actually going somewhere that can be tested
 
 
-need to implement module fs
 
-    YUNoAMD\requireJS\build\jslib\node\file.js:63:            return fs.statSync(path).isFile();
-    YUNoAMD\requireJS\build\jslib\node\file.js:67:            return fs.statSync(path).isDirectory();
     YUNoAMD\requireJS\build\jslib\node\file.js:84:                dirFileArray = fs.readdirSync(topDir);
-    YUNoAMD\requireJS\build\jslib\node\file.js:88:                    stat = fs.statSync(filePath);
-    YUNoAMD\requireJS\build\jslib\node\file.js:149:                if (pathgexistsSync(destFileName) && fs.statSync(destFil
-    eName).mtime.getTime() >= fs.statSync(srcFileName).mtime.getTime()) {
-    YUNoAMD\requireJS\build\jslib\node\file.js:160:            fs.writeFileSync(destFileName, fs.readFileSync(srcFileName,
-    'binary'), 'binary');
-    YUNoAMD\requireJS\build\jslib\node\file.js:175:            return fs.readFileSync(path, encoding);
-    YUNoAMD\requireJS\build\jslib\node\file.js:200:            fs.writeFileSync(fileName, fileContents, encoding);
-    YUNoAMD\requireJS\build\jslib\node\file.js:207:                stat = fs.statSync(fileName);
     YUNoAMD\requireJS\build\jslib\node\file.js:209:                    files = fs.readdirSync(fileName);
     YUNoAMD\requireJS\build\jslib\node\file.js:213:                    fs.rmdirSync(fileName);
     YUNoAMD\requireJS\build\jslib\node\file.js:215:                    fs.unlinkSync(fileName);
-    YUNoAMD\requireJS\build\jslib\node\load.js:12:        var contents = fs.readFileSync(fileName, 'utf8');
     
     
 need to implement module path
@@ -105,11 +89,12 @@ need to implement module path
 	file.js ->  aggh
 	*done* args.js 
 
+
 Jurassic limitations:
-  don't see a way to hook up functions with variable # of arguments
-  
-  don't see a way to control the context of execution (faking this wrapping in function(){})
-  
+
+* don't see a way to hook up functions with variable # of arguments
+* don't see a way to control the context of execution (faking this wrapping in function(){})
+* no support for long (used for filetime)  
   
   
 some urls:

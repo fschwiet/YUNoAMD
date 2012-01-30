@@ -84,21 +84,39 @@ namespace YUNoAMD.Test.Can_build_requireJS_environment
                     {"fileStats.isDirectory()", "False"},
                     {"dirStats.isDirectory()", "True"}
                 })
-                    it("evalutes expression " + expression.Key + " as " + expression.Value, delegate()
-                    {
-                        context.compiler.Execute(writeScript);
+                it("evalutes expression " + expression.Key + " as " + expression.Value, delegate()
+                {
+                    context.compiler.Execute(writeScript);
 
-                        var statScript = @"
+                    var statScript = @"
 require(['fs', 'print'], function(fs, print) { 
     var fileStats = fs.statSync(" + Serialize(targetPath) + @");
     var dirStats = fs.statSync(" + Serialize(new FileInfo(targetPath).Directory.FullName) + @");
     print(" + expression.Key + @");
 });";
 
-                        context.compiler.Execute(statScript);
+                    context.compiler.Execute(statScript);
 
-                        context.ExpectLines(expression.Value);
-                    });
+                    context.ExpectLines(expression.Value);
+                });
+
+                it("reports last modified time", delegate()
+                {
+                    var before = (double)DateTime.UtcNow.ToFileTimeUtc();
+                    context.compiler.Execute(writeScript);
+                    var after = (double)DateTime.UtcNow.ToFileTimeUtc();
+
+                    var statScript = @"
+require(['fs', 'print'], function(fs, print) { 
+    var fileStats = fs.statSync(" + Serialize(targetPath) + @");
+    print(fileStats.mtime.getTime());
+});";
+                    context.compiler.Execute(statScript);
+
+                    var time = double.Parse(context.GetLines().Single());
+
+                    expect(() => before <= time && time <= after);
+                });
             });
         }
 
