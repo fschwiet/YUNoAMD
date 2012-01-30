@@ -7,15 +7,6 @@ implement the next module (file) so the read/write code is actually going somewh
         
 need to implement module path
 
-YUNoAMD\requireJS\build\jslib\node\file.js:55:            return path.normalize(fs.realpathSync(fileName).replace(/\\/g
-, '/'));
-YUNoAMD\requireJS\build\jslib\node\file.js:63:            return fs.statSync(path).isFile();
-YUNoAMD\requireJS\build\jslib\node\file.js:66:        isDirectory: function (path) {
-YUNoAMD\requireJS\build\jslib\node\file.js:67:            return fs.statSync(path).isDirectory();
-YUNoAMD\requireJS\build\jslib\node\file.js:70:        getFilteredFileList: function (/*String*/startDir, /*RegExp*/regE
-xpFilters, /*boolean?*/makeUnixPaths) {
-YUNoAMD\requireJS\build\jslib\node\file.js:76:                i, stat, filePath, ok, dirFiles, fileName;
-YUNoAMD\requireJS\build\jslib\node\file.js:83:            if (path.existsSync(topDir)) {
 YUNoAMD\requireJS\build\jslib\node\file.js:87:                    filePath = path.join(topDir, fileName);
 YUNoAMD\requireJS\build\jslib\node\file.js:88:                    stat = fs.statSync(filePath);
 YUNoAMD\requireJS\build\jslib\node\file.js:90:                        if (makeUnixPaths) {

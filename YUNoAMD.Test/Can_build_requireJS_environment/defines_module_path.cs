@@ -50,6 +50,20 @@ require(['path', 'print'], function(path, print) {
 
                 context.ExpectLines(expected, expected, expected, expected);
             });
+
+            it("supports join", delegate()
+            {
+                var script = @"
+require(['path', 'print'], function(path, print) { 
+    print(path.join('c:\\test'));
+    print(path.join('c:\\test', 'second'));
+    print(path.join('c:\\test', 'second\\'));
+    print(path.join('c:\\test', 'second', 'third'));
+});";
+                context.compiler.Execute(script);
+
+                context.ExpectLines(@"c:\test",@"c:\test\second",@"c:\test\second\",@"c:\test\second\third");
+            });
         }
 
         public string Serialize(object o)

@@ -27,5 +27,18 @@ namespace YUNoAMD.Native
             path = AbsolutePath(path);
             return Path.GetFullPath(path).ToLowerInvariant();
         }
+
+        [JSFunction(Name = "join")]
+        public string join(params string[] paths)
+        {
+            var current = paths[0];
+
+            for(var i = 1; i <paths.Length; i++)
+            {
+                current = Path.Combine(current, paths[i]);
+            }
+
+            return current;
+        }
     }
 }
