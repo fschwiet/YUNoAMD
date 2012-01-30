@@ -13,7 +13,7 @@ namespace YUNoAMD
 
         public RequireJsCompiler(TextWriter consoleOut)
         {
-            _jsEngine = new Jurassic.ScriptEngine();
+            _jsEngine = new ScriptEngine();
 
             _jsEngine.Evaluate(LoadResource("require.js"));
             _jsEngine.Evaluate(LoadResource("json2.js"));
@@ -26,8 +26,8 @@ namespace YUNoAMD
             var ioAdapter = new IOAdapter(consoleOut);
 
             _jsEngine.SetGlobalFunction("print", (PrintDelegate)ioAdapter.print);
-            _jsEngine.SetGlobalFunction("warn", (Action<string,int,string,int>)ioAdapter.warn);
-            _jsEngine.SetGlobalFunction("readFile", (Func<string,string>)ioAdapter.readFile);
+            _jsEngine.SetGlobalFunction("warn", (Action<string, int, string, int>)ioAdapter.warn);
+            _jsEngine.SetGlobalFunction("readFile", (Func<string, string>)ioAdapter.readFile);
             _jsEngine.SetGlobalFunction("load", (Action<string>)ioAdapter.load);
         }
 
@@ -77,7 +77,7 @@ namespace YUNoAMD
                 }
                 catch (Exception e)
                 {
-                    throw new Exception(string.Format("Unable to find resource {0} at {1}.", path, resourceName), e);
+                    throw new Exception(String.Format("Unable to find resource {0} at {1}.", path, resourceName), e);
                 }
             }
         }
@@ -85,6 +85,15 @@ namespace YUNoAMD
         public void Run(string code)
         {
             _jsEngine.Evaluate(code);
+        }
+
+        public void RunWithArguments(string script, object[] arguments)
+        {
+            _jsEngine.SetGlobalValue("arguments", new JavaScriptSerializer()
+                .Serialize(
+                    arguments));
+
+            _jsEngine.Execute(script);
         }
     }
 }
