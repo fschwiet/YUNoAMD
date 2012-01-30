@@ -11,15 +11,28 @@ namespace YUNoAMD.Native
 
         }
 
-        [JSFunction(Name= "writeFileSync")]
+        [JSFunction(Name = "writeFileSync")]
         public void writeFileSync(string path, string content, string encoding)
         {
-            if (encoding != "utf8")
-                throw new JavaScriptException(_engine, "Error", "Unexpected encoding: " + encoding);
+            CheckEncoding(encoding);
 
             Directory.CreateDirectory(new FileInfo(path).Directory.FullName);
 
             File.WriteAllText(path, content);
+        }
+
+        [JSFunction(Name = "readFileSync")]
+        public string readFileSync(string path, string encoding)
+        {
+            CheckEncoding(encoding);
+
+            return File.ReadAllText(path);
+        }
+
+        private void CheckEncoding(string encoding)
+        {
+            if (encoding != "utf8")
+                throw new JavaScriptException(_engine, "Error", "Unexpected encoding: " + encoding);
         }
     }
 }

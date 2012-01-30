@@ -7,13 +7,13 @@ namespace YUNoAMD.Test
 {
     public class CompilerUsage
     {
-        public StringWriter writer;
+        private StringWriter _writer;
         public RequireJsCompiler compiler;
 
         public CompilerUsage(GivenWhenThenFixture fixture)
         {
-            writer = new StringWriter();
-            compiler = fixture.arrange(() => new RequireJsCompiler(writer));
+            _writer = new StringWriter();
+            compiler = fixture.arrange(() => new RequireJsCompiler(_writer));
         }
 
         public void ExpectLines(params string[] lines)
@@ -23,7 +23,7 @@ namespace YUNoAMD.Test
 
         private String[] GetLines()
         {
-            return writer.ToString().Split(new[] { writer.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+            return _writer.ToString().Split(new[] { _writer.NewLine }, StringSplitOptions.RemoveEmptyEntries);
         }
     }
 }
