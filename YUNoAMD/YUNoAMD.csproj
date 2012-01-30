@@ -45,6 +45,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Native\IOAdapter.cs" />
+    <Compile Include="Native\NativeBase.cs" />
+    <Compile Include="Native\NativeFS.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RequireJsCompiler.cs" />
   </ItemGroup>

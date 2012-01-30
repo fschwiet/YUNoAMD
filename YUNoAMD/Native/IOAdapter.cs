@@ -6,17 +6,14 @@ using Jurassic.Library;
 
 namespace YUNoAMD.Native
 {
-    public class IOAdapter : ObjectInstance
+    public class IOAdapter : NativeBase
     {
-        private readonly ScriptEngine _engine;
         private readonly TextWriter _consoleOut;
         Dictionary<string,string> _preloadedContent = new Dictionary<string, string>();
 
         public IOAdapter(ScriptEngine engine, TextWriter consoleOut) : base(engine)
         {
-            _engine = engine;
             _consoleOut = consoleOut;
-            this.PopulateFunctions();
         }
 
         [JSFunction(Name = "print")]
@@ -27,17 +24,6 @@ namespace YUNoAMD.Native
                 if (message != null)
                     _consoleOut.WriteLine(message);
             }
-        }
-
-        [JSFunction(Name= "writeFileSync")]
-        public void writeFileSync(string path, string content, string encoding)
-        {
-            if (encoding != "utf8")
-                throw new JavaScriptException(_engine, "Error", "Unexpected encoding: " + encoding);
-
-            Directory.CreateDirectory(new FileInfo(path).Directory.FullName);
-
-            File.WriteAllText(path, content);
         }
 
         [JSFunction(Name = "warn")]

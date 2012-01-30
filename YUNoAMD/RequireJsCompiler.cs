@@ -13,6 +13,7 @@ namespace YUNoAMD
         
         private ScriptEngine _jsEngine;
         IOAdapter _ioAdapter;
+        NativeFS _fs;
         
         public RequireJsCompiler(TextWriter consoleOut)
         {
@@ -25,6 +26,9 @@ namespace YUNoAMD
             _jsEngine.Evaluate("require(" + new JavaScriptSerializer().Serialize(new {
                 baseUrl = ResourceBaseUrl
             }) + ");");
+
+            _fs = new NativeFS(_jsEngine);
+            _jsEngine.SetGlobalValue("YUNoFS", _fs);
 
             _ioAdapter = new IOAdapter(_jsEngine, consoleOut);
 
