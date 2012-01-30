@@ -34,6 +34,7 @@ namespace YUNoAMD
 
             SetupModuleFromResource(RequireJsCompiler.ResourceBaseUrl + "env.js", @"build\jslib\env.js");
             SetupModuleFromResource(RequireJsCompiler.ResourceBaseUrl + "yunoamd/args.js", @"build\jslib\yunoamd\args.js");
+            SetupModuleFromResource(RequireJsCompiler.ResourceBaseUrl + "build.js", @"build\build.js");
         }
 
         private delegate void PrintDelegate(params string[] messages);
@@ -43,22 +44,15 @@ namespace YUNoAMD
             string appName = filePath;
             if (appName.EndsWith(".js", StringComparison.InvariantCultureIgnoreCase))
                 appName = appName.Substring(0, appName.LastIndexOf(".js"));
-            
 
-            StringBuilder sb = new StringBuilder();
-            sb.AppendLine("(function(){ // " + filePath);
 
-            sb.AppendLine(LoadResource(@"build\build.js"));
+            var script = File.ReadAllText(filePath);
 
-            sb.AppendLine("})();");
-
-            RunWithArguments(sb.ToString(), new []{"",
+            RunWithArguments(script, new []{"",
                 "",
                 "name=" + appName,
                 "out=" + "c:\\outpuatPath\\hmm.txt",
-                "baseUrl="});
-
-            _jsEngine.Execute(sb.ToString());
+                "baseUrl=http://hithere/"});
 
             return File.ReadAllText(filePath);
         }

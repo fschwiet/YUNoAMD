@@ -31,7 +31,7 @@ require(['env!env/args'],
                     {
                         context.compiler.LoadResource(@"build\jslib\yunoamd\args.js");
 
-                        context.compiler.RunWithArguments(script, new string[]
+                        context.compiler.RunWithArguments(script, new []
                         {
                             "1",
                             23.ToString(),
