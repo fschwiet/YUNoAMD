@@ -4,7 +4,7 @@ using System.IO;
 using Jurassic;
 using Jurassic.Library;
 
-namespace YUNoAMD
+namespace YUNoAMD.Native
 {
     public class IOAdapter : ObjectInstance
     {

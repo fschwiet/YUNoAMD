@@ -3,6 +3,7 @@ using System.IO;
 using System.Text;
 using System.Web.Script.Serialization;
 using Jurassic;
+using YUNoAMD.Native;
 
 namespace YUNoAMD
 {
