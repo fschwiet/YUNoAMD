@@ -82,7 +82,7 @@ namespace YUNoAMD.Test.Can_build_requireJS_environment
                     {"fileStats.isFile()", "True"},
                     {"dirStats.isFile()", "False"},
                     {"fileStats.isDirectory()", "False"},
-                    {"dirStats.isDirectory()", "False"}
+                    {"dirStats.isDirectory()", "True"}
                 })
                     it("evalutes expression " + expression.Key + " as " + expression.Value, delegate()
                     {
