@@ -44,19 +44,16 @@ namespace YUNoAMD
 
             StringBuilder sb = new StringBuilder();
             sb.AppendLine("(function(){ // " + filePath);
-            sb.AppendLine("var arguments = ");
-            sb.AppendLine(new JavaScriptSerializer().Serialize(new object[]
-            {
-                "",
-                "",
-                "name=" + appName,
-                "out=" + "c:\\outpuatPath\\hmm.txt",
-                "baseUrl=" 
-            }));
 
             sb.AppendLine(LoadResource(@"build\build.js"));
 
             sb.AppendLine("})();");
+
+            RunWithArguments(sb.ToString(), new []{"",
+                "",
+                "name=" + appName,
+                "out=" + "c:\\outpuatPath\\hmm.txt",
+                "baseUrl="});
 
             _jsEngine.Execute(sb.ToString());
 
