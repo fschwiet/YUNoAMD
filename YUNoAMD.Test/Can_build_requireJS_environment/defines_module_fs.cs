@@ -79,10 +79,10 @@ namespace YUNoAMD.Test.Can_build_requireJS_environment
             {
                 foreach (var expression in new Dictionary<string, string>()
                 {
-                    {"fileStats.isFile()", "true"},
-                    {"dirStats.isFile()", "false"},
-                    {"fileStats.isDirectory()", "false"},
-                    {"dirStats.isDirectory()", "false"}
+                    {"fileStats.isFile()", "True"},
+                    {"dirStats.isFile()", "False"},
+                    {"fileStats.isDirectory()", "False"},
+                    {"dirStats.isDirectory()", "False"}
                 })
                     it("evalutes expression " + expression.Key + " as " + expression.Value, delegate()
                     {

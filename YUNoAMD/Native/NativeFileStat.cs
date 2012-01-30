@@ -1,9 +1,10 @@
+using System.IO;
 using Jurassic;
 using Jurassic.Library;
 
 namespace YUNoAMD.Native
 {
-    public class NativeFileStat : ObjectInstance
+    public class NativeFileStat : NativeBase
     {
         private readonly string _path;
 
@@ -15,10 +16,13 @@ namespace YUNoAMD.Native
         [JSFunction(Name = "isFile")]
         public bool isFile()
         {
-            return false;
-            //return Directory.Exists(_path);  
+            return File.Exists(_path);  
         }
 
-        //public bool isDirectory()
+        [JSFunction(Name = "isDirectory")]
+        public bool isDirectory()
+        {
+            return Directory.Exists(_path);
+        }
     }
 }
