@@ -59,10 +59,16 @@ namespace YUNoAMD.Native
             Directory.CreateDirectory(path);
         }
 
-        [JSFunction(Name="realpathSync")]
+        [JSFunction(Name = "realpathSync")]
         public string realpathSync(string path)
         {
             return AbsolutePath(path);
+        }
+
+        [JSFunction(Name = "statSync")]
+        public ObjectInstance statSync(string path)
+        {
+            return new NativeFileStat(_engine, AbsolutePath(path));
         }
     }
 }

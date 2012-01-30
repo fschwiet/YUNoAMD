@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Web.Script.Serialization;
 using NJasmine;
 using NJasmine.Extras;
@@ -19,62 +20,84 @@ namespace YUNoAMD.Test.Can_build_requireJS_environment
 
             arrange(() => DirectoryUtil.DeleteDirectory(testDirectory));
 
-            describe("supports read and write", delegate()
+            var expectedContent = Guid.NewGuid().ToString();
+            string relativeTargetPath = @"la\de\da\wrote.txt";
+            var targetPath = arrange(() => Path.Combine(testDirectory, relativeTargetPath));
+
+            var writeScript = arrange(() =>  "require(['fs'], function(fs) { fs.writeFileSync( "
+                + Serialize(targetPath) + ", " + Serialize(expectedContent) + ",'utf8'); });");
+
+            it("supports writeFileSync", delegate()
             {
-                var expectedContent = Guid.NewGuid().ToString();
-                string relativeTargetPath = @"la\de\da\wrote.txt";
-                var targetPath = arrange(() => Path.Combine(testDirectory, relativeTargetPath));
+                context.compiler.Execute(writeScript);
 
-                var writeScript = arrange(() =>  "require(['fs'], function(fs) { fs.writeFileSync( "
-                    + Serialize(targetPath) + ", " + Serialize(expectedContent) + ",'utf8'); });");
+                expect(() => File.ReadAllText(targetPath) == expectedContent);
+            });
 
-                it("can write a string", delegate()
+            it("supports readFileSync", delegate()
+            {
+                context.compiler.Execute(writeScript);
+
+                var echoScript = arrange(() => "require(['fs', 'print'], function(fs, print) { print(fs.readFileSync( "
+                    + Serialize(targetPath) + ",'utf8')); });");
+
+                context.compiler.Execute(echoScript);
+
+                context.ExpectLines(expectedContent);
+            });
+
+            it("supports mkdirSync", delegate()
+            {
+                var otherDirectory = Path.Combine(testDirectory, "CreatedByNativeFS");
+
+                expect(() => !Directory.Exists(otherDirectory));
+
+                var echoScript = "require(['fs'], function(fs) { fs.mkdirSync( "
+                    + Serialize(otherDirectory) + ",'0777'); });";
+
+                context.compiler.Execute(echoScript);
+
+                expect(() => Directory.Exists(otherDirectory));
+            });
+
+            foreach(var pathVariation in new[] { relativeTargetPath, ".\\" + relativeTargetPath})
+            {
+                it("supports realpathSync for " + pathVariation, delegate()
                 {
                     context.compiler.Execute(writeScript);
 
-                    expect(() => File.ReadAllText(targetPath) == expectedContent);
+                    var realScript = "require(['fs', 'print'], function(fs, print) { print(fs.realpathSync( "
+                        + Serialize(pathVariation) + ",'utf8')); });";
+
+                    context.compiler.Execute(realScript);
+
+                    context.ExpectLines(targetPath);
                 });
+            }
 
-                it("can read a string", delegate()
-                {
-                    context.compiler.Execute(writeScript);
 
-                    var echoScript = arrange(() => "require(['fs', 'print'], function(fs, print) { print(fs.readFileSync( "
-                        + Serialize(targetPath) + ",'utf8')); });");
+            foreach(var expression in new Dictionary<string,string>()
+            {
+                {"fileStats.isFile()", "true"},
+                {"dirStats.isFile()", "false"},
+                {"fileStats.isDirectory()", "false"},
+                {"dirStats.isDirectory()", "false"}
+            })
+            it("gives statSync expression " + expression.Key + " as " + expression.Value, delegate()
+            {
+                context.compiler.Execute(writeScript);
 
-                    context.compiler.Execute(echoScript);
+                var statScript = @"
+require(['fs', 'print'], function(fs, print) { 
+    var fileStats = fs.statSync(" + Serialize(targetPath) + @");
+    var dirStats = fs.statSync(" + Serialize(new FileInfo(targetPath).Directory.FullName) + @");
+    print(JSON.stringify(fileStats));
+    //print(" + expression.Key + @");
+});";
 
-                    context.ExpectLines(expectedContent);
-                });
+                context.compiler.Execute(statScript);
 
-                it("can create a directory", delegate()
-                {
-                    var otherDirectory = Path.Combine(testDirectory, "CreatedByNativeFS");
-
-                    expect(() => !Directory.Exists(otherDirectory));
-
-                    var echoScript = arrange(() => "require(['fs'], function(fs) { fs.mkdirSync( "
-                        + Serialize(otherDirectory) + ",'0777'); });");
-
-                    context.compiler.Execute(echoScript);
-
-                    expect(() => Directory.Exists(otherDirectory));
-                });
-
-                foreach(var pathVariation in new[] { relativeTargetPath, ".\\" + relativeTargetPath})
-                {
-                    it("can make a relative path absolute", delegate()
-                    {
-                        context.compiler.Execute(writeScript);
-
-                        var realScript = arrange(() => "require(['fs', 'print'], function(fs, print) { print(fs.realpathSync( "
-                            + Serialize(pathVariation) + ",'utf8')); });");
-
-                        context.compiler.Execute(realScript);
-
-                        context.ExpectLines(targetPath);
-                    });
-                }
+                context.ExpectLines(expression.Value);
             });
         }
 
