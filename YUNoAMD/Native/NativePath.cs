@@ -40,5 +40,11 @@ namespace YUNoAMD.Native
 
             return current;
         }
+
+        [JSFunction(Name = "path")]
+        public string path(string path)
+        {
+            return new FileInfo(AbsolutePath(path)).DirectoryName;
+        }
     }
 }
