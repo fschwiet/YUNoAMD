@@ -118,6 +118,28 @@ require(['fs', 'print'], function(fs, print) {
                     expect(() => before <= time && time <= after);
                 });
             });
+
+            describe("readdirSync", delegate()
+            {
+                it("lists file and directory names", delegate()
+                {
+                    Directory.CreateDirectory(testDirectory);
+
+                    File.WriteAllText(Path.Combine(testDirectory, "foo.txt"), "123");
+                    File.WriteAllText(Path.Combine(testDirectory, "bar.html"), "123");
+                    File.WriteAllText(Path.Combine(testDirectory, "baz.css"), "123");
+                    Directory.CreateDirectory(Path.Combine(testDirectory, "qux"));
+
+                    var readdirScript = @"
+require(['fs', 'print'], function(fs, print) { 
+    var names = fs.readdirSync(" + Serialize(testDirectory) + @");
+    print.apply(null, names);
+});";
+                    context.compiler.Execute(readdirScript);
+
+                    context.ExpectLines("bar.html", "baz.css", "foo.txt", "qux");
+                });
+            });
         }
 
         public string Serialize(object o)

@@ -1,5 +1,8 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Web.Script.Serialization;
 using Jurassic;
 using Jurassic.Library;
 
@@ -69,6 +72,23 @@ namespace YUNoAMD.Native
         public ObjectInstance statSync(string path)
         {
             return new NativeFileStat(_engine, AbsolutePath(path));
+        }
+
+        [JSFunction(Name = "readdirSync")]
+        public object readdirSync(string path)
+        {
+            string[] files = Directory.GetFileSystemEntries(AbsolutePath(path), "*");
+
+            if (files.Length == 0)
+                throw new Exception("emptied");
+            List<string> results = new List<string>();
+
+            foreach(var filepath in files)
+            {
+                results.Add(new FileInfo(filepath).Name);
+            }
+
+            return new JavaScriptSerializer().Serialize(results.OrderBy(r => r).ToArray());
         }
     }
 }
