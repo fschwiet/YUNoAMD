@@ -16,7 +16,9 @@
     var pathRegExp = /(\/|^)env\/|\{env\}/,
         env = 'unknown';
 
-    if (typeof Packages !== 'undefined') {
+    if (typeof IsRunningYUNoAMD !== 'undefined' && IsRunningYUNoAMD) {
+        env = 'yunoamd';
+    } else if (typeof Packages !== 'undefined') {
         env = 'rhino';
     } else if (typeof process !== 'undefined') {
         env = 'node';

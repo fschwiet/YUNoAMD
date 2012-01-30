@@ -8,9 +8,11 @@ namespace YUNoAMD
 {
     public class RequireJsCompiler
     {
+        public const string ResourceBaseUrl = "http://requirejs.resources/";
+        
         private ScriptEngine _jsEngine;
-        private const string _resourceBaseUrl = "http://requirejs.resources/";
-
+        IOAdapter _ioAdapter;
+        
         public RequireJsCompiler(TextWriter consoleOut)
         {
             _jsEngine = new ScriptEngine();
@@ -20,15 +22,15 @@ namespace YUNoAMD
             _jsEngine.Evaluate(LoadResource(@"adapt\rhino.js"));
 
             _jsEngine.Evaluate("require(" + new JavaScriptSerializer().Serialize(new {
-                baseUrl = _resourceBaseUrl
+                baseUrl = ResourceBaseUrl
             }) + ");");
 
-            var ioAdapter = new IOAdapter(consoleOut);
+            _ioAdapter = new IOAdapter(_jsEngine, consoleOut);
 
-            _jsEngine.SetGlobalFunction("print", (PrintDelegate)ioAdapter.print);
-            _jsEngine.SetGlobalFunction("warn", (Action<string, int, string, int>)ioAdapter.warn);
-            _jsEngine.SetGlobalFunction("readFile", (Func<string, string>)ioAdapter.readFile);
-            _jsEngine.SetGlobalFunction("load", (Action<string>)ioAdapter.load);
+            _jsEngine.SetGlobalFunction("load", (Action<string>)_ioAdapter.load);
+
+            _jsEngine.SetGlobalValue("ioe", _ioAdapter);
+            _jsEngine.SetGlobalValue("IsRunningYUNoAMD", true);
         }
 
         private delegate void PrintDelegate(params string[] messages);
@@ -87,13 +89,19 @@ namespace YUNoAMD
             _jsEngine.Evaluate(code);
         }
 
-        public void RunWithArguments(string script, object[] arguments)
+        public void RunWithArguments(string script, string[] arguments)
         {
-            _jsEngine.SetGlobalValue("arguments", new JavaScriptSerializer()
-                .Serialize(
-                    arguments));
+            string serializedArguments = new JavaScriptSerializer().Serialize(arguments);
+
+            _jsEngine.Execute("arguments = " + serializedArguments + ";");
 
             _jsEngine.Execute(script);
+        }
+
+        public void SetupModuleFromResource(string name, string resourcePath)
+        {
+            var resourceContent = LoadResource(resourcePath);
+            _ioAdapter.SetContent(name, resourceContent);
         }
     }
 }

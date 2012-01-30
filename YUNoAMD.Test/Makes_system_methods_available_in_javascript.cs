@@ -15,14 +15,14 @@ namespace YUNoAMD.Test
             {
                 it("writes the message to the console", delegate()
                 {
-                    context.compiler.Evaluate("print('123')");
+                    context.compiler.Evaluate("ioe.print('123')");
 
                     context.ExpectLines("123");
                 });
 
                 it("writes multiple messages to the console", delegate()
                 {
-                    context.compiler.Evaluate("print('123','456',789);");
+                    context.compiler.Evaluate("ioe.print('123','456',789);");
 
                     context.ExpectLines("123", "456", "789");
                 });
@@ -32,7 +32,7 @@ namespace YUNoAMD.Test
             {
                 it("writes a warning to the console", delegate()
                 {
-                    context.compiler.Evaluate("warn('message',1,'source.js', 3)");
+                    context.compiler.Evaluate("ioe.warn('message',1,'source.js', 3)");
 
                     context.ExpectLines("WARNING: source.js:1:3  message");
                 });

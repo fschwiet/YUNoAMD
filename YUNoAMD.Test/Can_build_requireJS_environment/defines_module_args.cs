@@ -19,7 +19,7 @@ namespace YUNoAMD.Test.Can_build_requireJS_environment
 require(['env!env/args'],
     function (args) {
         for(var i = 0; i < args.length; i++) {
-            print(args[i]);
+            ioe.print(args[i]);
         }
     });
 ";
@@ -27,15 +27,16 @@ require(['env!env/args'],
                 {
                     var context = new CompilerUsage(this);
 
-
                     arrange(delegate
                     {
+                        context.compiler.SetupModuleFromResource(RequireJsCompiler.ResourceBaseUrl + "env.js", @"build\jslib\env.js");
+                        context.compiler.SetupModuleFromResource(RequireJsCompiler.ResourceBaseUrl + "yunoamd/args.js", @"build\jslib\yunoamd\args.js");
                         context.compiler.LoadResource(@"build\jslib\yunoamd\args.js");
 
-                        context.compiler.RunWithArguments(script, new object[]
+                        context.compiler.RunWithArguments(script, new string[]
                         {
                             "1",
-                            23,
+                            23.ToString(),
                             "456"
                         });
                     });
@@ -45,11 +46,6 @@ require(['env!env/args'],
                         context.ExpectLines("1", "23", "456");
                     });
                 });
-            });
-
-            describe("global variable arguments can be require()d", delegate()
-            {
-                
             });
         }
     }
