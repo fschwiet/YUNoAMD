@@ -31,6 +31,9 @@ namespace YUNoAMD
 
             _jsEngine.SetGlobalValue("ioe", _ioAdapter);
             _jsEngine.SetGlobalValue("IsRunningYUNoAMD", true);
+
+            SetupModuleFromResource(RequireJsCompiler.ResourceBaseUrl + "env.js", @"build\jslib\env.js");
+            SetupModuleFromResource(RequireJsCompiler.ResourceBaseUrl + "yunoamd/args.js", @"build\jslib\yunoamd\args.js");
         }
 
         private delegate void PrintDelegate(params string[] messages);

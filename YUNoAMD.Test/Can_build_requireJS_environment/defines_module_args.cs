@@ -23,14 +23,12 @@ require(['env!env/args'],
         }
     });
 ";
-                when("jslib\\YUNoarg\\args.js is ran woth the script", delegate()
+                when("jslib\\YUNoarg\\args.js is ran with the script", delegate()
                 {
                     var context = new CompilerUsage(this);
 
                     arrange(delegate
                     {
-                        context.compiler.SetupModuleFromResource(RequireJsCompiler.ResourceBaseUrl + "env.js", @"build\jslib\env.js");
-                        context.compiler.SetupModuleFromResource(RequireJsCompiler.ResourceBaseUrl + "yunoamd/args.js", @"build\jslib\yunoamd\args.js");
                         context.compiler.LoadResource(@"build\jslib\yunoamd\args.js");
 
                         context.compiler.RunWithArguments(script, new string[]

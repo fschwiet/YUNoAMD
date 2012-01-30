@@ -20,10 +20,13 @@ namespace YUNoAMD
         }
 
         [JSFunction(Name = "print")]
-        public void print(params string[] messages)
+        public void print(params object[] messages)
         {
             foreach (var message in messages)
-                _consoleOut.WriteLine(message);
+            {
+                if (message != null)
+                    _consoleOut.WriteLine(message);
+            }
         }
 
         [JSFunction(Name = "warn")]

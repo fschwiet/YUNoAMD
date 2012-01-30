@@ -61,9 +61,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Can_build_requireJS_environment\defines_module_args.cs" />
+    <Compile Include="Can_build_requireJS_environment\defines_module_print.cs" />
     <Compile Include="Can_build_requireJS_project.cs" />
     <Compile Include="CompilerUsage.cs" />
-    <Compile Include="Makes_system_methods_available_in_javascript.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
