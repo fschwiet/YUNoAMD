@@ -23,14 +23,16 @@ require(['env!env/args'],
         }
     });
 ";
-                when("ran with arguments", delegate()
+                when("jslib\\YUNoarg\\args.js is ran woth the script", delegate()
                 {
-                    var writer = new StringWriter();
-                    arrange(delegate()
-                    {
-                        var compiler = new RequireJsCompiler(writer);
+                    var context = new CompilerUsage(this);
 
-                        compiler.RunWithArguments(script, new object[]
+
+                    arrange(delegate
+                    {
+                        context.compiler.LoadResource(@"build\jslib\yunoamd\args.js");
+
+                        context.compiler.RunWithArguments(script, new object[]
                         {
                             "1",
                             23,
@@ -40,10 +42,8 @@ require(['env!env/args'],
 
                     it("echoes the arguments", delegate()
                     {
-
-                        expect(() => writer.ToString() == "123" + writer.NewLine);
+                        context.ExpectLines("1", "23", "456");
                     });
-                    
                 });
             });
 

@@ -61,7 +61,7 @@ namespace YUNoAMD
             return File.ReadAllText(filePath);
         }
 
-        private string LoadResource(string path)
+        public string LoadResource(string path)
         {
             var assembly = this.GetType().Assembly;
 
@@ -82,7 +82,7 @@ namespace YUNoAMD
             }
         }
 
-        public void Run(string code)
+        public void Evaluate(string code)
         {
             _jsEngine.Evaluate(code);
         }
