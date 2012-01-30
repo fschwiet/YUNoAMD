@@ -35,6 +35,8 @@ namespace YUNoAMD
             SetupModuleFromResource(RequireJsCompiler.ResourceBaseUrl + "env.js", @"build\jslib\env.js");
             SetupModuleFromResource(RequireJsCompiler.ResourceBaseUrl + "yunoamd/args.js", @"build\jslib\yunoamd\args.js");
             SetupModuleFromResource(RequireJsCompiler.ResourceBaseUrl + "build.js", @"build\build.js");
+            SetupModuleFromResource(RequireJsCompiler.ResourceBaseUrl + "print.js", @"build\jslib\yunoamd\print.js");
+            SetupModuleFromResource(RequireJsCompiler.ResourceBaseUrl + "fs.js", @"build\jslib\yunoamd\fs.js");
         }
 
         private delegate void PrintDelegate(params string[] messages);
@@ -44,7 +46,6 @@ namespace YUNoAMD
             string appName = filePath;
             if (appName.EndsWith(".js", StringComparison.InvariantCultureIgnoreCase))
                 appName = appName.Substring(0, appName.LastIndexOf(".js"));
-
 
             var script = File.ReadAllText(filePath);
 
@@ -81,6 +82,11 @@ namespace YUNoAMD
         public void Evaluate(string code)
         {
             _jsEngine.Evaluate(code);
+        }
+
+        public void Execute(string code)
+        {
+            _jsEngine.Execute(code);
         }
 
         public void RunWithArguments(string script, string[] arguments)

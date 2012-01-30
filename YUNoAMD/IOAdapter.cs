@@ -29,6 +29,17 @@ namespace YUNoAMD
             }
         }
 
+        [JSFunction(Name= "writeFileSync")]
+        public void writeFileSync(string path, string content, string encoding)
+        {
+            if (encoding != "utf8")
+                throw new JavaScriptException(_engine, "Error", "Unexpected encoding: " + encoding);
+
+            Directory.CreateDirectory(new FileInfo(path).Directory.FullName);
+
+            File.WriteAllText(path, content);
+        }
+
         [JSFunction(Name = "warn")]
         public void warn(string message, int line, string source, int column)
         {

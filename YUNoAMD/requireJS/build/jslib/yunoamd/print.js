@@ -8,6 +8,7 @@
 /*global define: false, print: false */
 
 define(function () {
+    
     return function (a, b, c, d, e, f, g, h, i, j, k) {
         // unfortunately invoke is not defined
         ioe.print(a, b, c, d, e, f, g, h, i, j, k);

@@ -8,8 +8,6 @@ namespace YUNoAMD.Test.Can_build_requireJS_environment
         {
             var context = new CompilerUsage(this);
 
-            arrange(() => context.compiler.SetupModuleFromResource(RequireJsCompiler.ResourceBaseUrl + "print.js", @"build\jslib\yunoamd\print.js"));
-
             it("writes the message to the console", delegate()
             {
                 context.compiler.Evaluate("require(['print'], function(print) { print('123'); });");
