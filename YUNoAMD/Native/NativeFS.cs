@@ -62,6 +62,12 @@ namespace YUNoAMD.Native
             Directory.CreateDirectory(path);
         }
 
+        [JSFunction(Name = "rmdirSync")]
+        public void rmdirSync(string path)
+        {
+            Directory.Delete(path, true);
+        }
+
         [JSFunction(Name = "realpathSync")]
         public string realpathSync(string path)
         {

@@ -7,6 +7,7 @@ define(function () {
         mkdirSync: function (path, permissions) { return YUNoFS.mkdirSync(path, permissions); },
         realpathSync: function (path) { return YUNoFS.realpathSync(path); },
         statSync: function (path) { return YUNoFS.statSync(path); },
-        readdirSync: function (path) { return eval(YUNoFS.readdirSync(path)); }
+        readdirSync: function (path) { return eval(YUNoFS.readdirSync(path)); },
+        rmdirSync: function (path) { return eval(YUNoFS.rmdirSync(path)); }
     };
 });

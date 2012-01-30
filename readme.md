@@ -6,9 +6,6 @@ implement the next module (file) so the read/write code is actually going somewh
 
 
 
-    YUNoAMD\requireJS\build\jslib\node\file.js:84:                dirFileArray = fs.readdirSync(topDir);
-    YUNoAMD\requireJS\build\jslib\node\file.js:209:                    files = fs.readdirSync(fileName);
-    YUNoAMD\requireJS\build\jslib\node\file.js:213:                    fs.rmdirSync(fileName);
     YUNoAMD\requireJS\build\jslib\node\file.js:215:                    fs.unlinkSync(fileName);
     
     

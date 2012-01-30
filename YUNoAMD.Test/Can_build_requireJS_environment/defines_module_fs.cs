@@ -60,7 +60,23 @@ namespace YUNoAMD.Test.Can_build_requireJS_environment
                 expect(() => Directory.Exists(otherDirectory));
             });
 
-            foreach(var pathVariation in new[] { relativeTargetPath, ".\\" + relativeTargetPath})
+            it("supports rmdirSync", delegate()
+            {
+                var otherDirectory = Path.Combine(testDirectory, "CreatedByNativeFS");
+
+                Directory.CreateDirectory(otherDirectory);
+
+                expect(() => Directory.Exists(otherDirectory));
+
+                var echoScript = "require(['fs'], function(fs) { fs.rmdirSync( "
+                    + Serialize(otherDirectory) + "); });";
+
+                context.compiler.Execute(echoScript);
+
+                expect(() => !Directory.Exists(otherDirectory));
+            });
+
+            foreach (var pathVariation in new[] { relativeTargetPath, ".\\" + relativeTargetPath })
             {
                 it("supports realpathSync for " + pathVariation, delegate()
                 {
