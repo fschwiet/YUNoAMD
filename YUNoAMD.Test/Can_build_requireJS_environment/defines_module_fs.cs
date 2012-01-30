@@ -68,12 +68,26 @@ namespace YUNoAMD.Test.Can_build_requireJS_environment
 
                 expect(() => Directory.Exists(otherDirectory));
 
-                var echoScript = "require(['fs'], function(fs) { fs.rmdirSync( "
+                var script = "require(['fs'], function(fs) { fs.rmdirSync( "
                     + Serialize(otherDirectory) + "); });";
 
-                context.compiler.Execute(echoScript);
+                context.compiler.Execute(script);
 
                 expect(() => !Directory.Exists(otherDirectory));
+            });
+
+            it("supports unlinkSync", delegate()
+            {
+                context.compiler.Execute(writeScript);
+
+                expect(() => File.Exists(targetPath));
+
+                var script = "require(['fs'], function(fs) { fs.unlinkSync( "
+                    + Serialize(targetPath) + "); });";
+
+                context.compiler.Execute(script);
+
+                expect(() => !File.Exists(targetPath));
             });
 
             foreach (var pathVariation in new[] { relativeTargetPath, ".\\" + relativeTargetPath })

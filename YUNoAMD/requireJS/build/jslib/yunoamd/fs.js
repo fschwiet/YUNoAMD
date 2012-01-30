@@ -8,6 +8,7 @@ define(function () {
         realpathSync: function (path) { return YUNoFS.realpathSync(path); },
         statSync: function (path) { return YUNoFS.statSync(path); },
         readdirSync: function (path) { return eval(YUNoFS.readdirSync(path)); },
-        rmdirSync: function (path) { return eval(YUNoFS.rmdirSync(path)); }
+        rmdirSync: function (path) { return eval(YUNoFS.rmdirSync(path)); },
+        unlinkSync: function (path) { return eval(YUNoFS.unlinkSync(path)); }
     };
 });

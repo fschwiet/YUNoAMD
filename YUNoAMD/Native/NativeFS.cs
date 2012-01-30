@@ -59,13 +59,19 @@ namespace YUNoAMD.Native
             if (permissions != "0777")
                 throw new JavaScriptException(_engine, "Error", "Unexpected permission: " + permissions);
 
-            Directory.CreateDirectory(path);
+            Directory.CreateDirectory(AbsolutePath(path));
         }
 
         [JSFunction(Name = "rmdirSync")]
         public void rmdirSync(string path)
         {
-            Directory.Delete(path, true);
+            Directory.Delete(AbsolutePath(path), true);
+        }
+
+        [JSFunction(Name = "unlinkSync")]
+        public void unlinkSync(string path)
+        {
+            File.Delete(AbsolutePath(path));
         }
 
         [JSFunction(Name = "realpathSync")]
