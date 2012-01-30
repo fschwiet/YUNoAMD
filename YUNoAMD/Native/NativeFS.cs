@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using Jurassic;
 using Jurassic.Library;
@@ -33,6 +34,15 @@ namespace YUNoAMD.Native
         {
             if (encoding != "utf8")
                 throw new JavaScriptException(_engine, "Error", "Unexpected encoding: " + encoding);
+        }
+
+        [JSFunction(Name = "mkdirSync")]
+        public void mkdirSync(string path, string permissions)
+        {
+            if (permissions != "0777")
+                throw new JavaScriptException(_engine, "Error", "Unexpected permission: " + permissions);
+
+            Directory.CreateDirectory(path);
         }
     }
 }

@@ -43,6 +43,20 @@ namespace YUNoAMD.Test.Can_build_requireJS_environment
 
                     context.ExpectLines(expectedContent);
                 });
+
+                it("can create a directory", delegate()
+                {
+                    var otherDirectory = Path.Combine(testDirectory, "CreatedByNativeFS");
+
+                    expect(() => !Directory.Exists(otherDirectory));
+
+                    var echoScript = arrange(() => "require(['fs'], function(fs) { fs.mkdirSync( "
+                        + Serialize(otherDirectory) + ",'0777'); });");
+
+                    context.compiler.Execute(echoScript);
+
+                    expect(() => Directory.Exists(otherDirectory));
+                });
             });
         }
 
