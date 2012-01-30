@@ -14,15 +14,13 @@ namespace YUNoAMD.Test.Can_build_requireJS_environment
     {
         public override void Specify()
         {
-            var testDirectory = Path.Combine(Path.GetTempPath(), "YUNoAMD.Test");
-
-            var context = new CompilerUsage(this, testDirectory);
-
-            arrange(() => DirectoryUtil.DeleteDirectory(testDirectory));
+            var testFolder = new TestFolder(this);
+            
+            var context = new CompilerUsage(this, testFolder.FullName);
 
             var expectedContent = Guid.NewGuid().ToString();
             string relativeTargetPath = @"la\de\da\wrote.txt";
-            var targetPath = arrange(() => Path.Combine(testDirectory, relativeTargetPath));
+            var targetPath = arrange(() => Path.Combine(testFolder.FullName, relativeTargetPath));
 
             var writeScript = arrange(() =>  "require(['fs'], function(fs) { fs.writeFileSync( "
                 + Serialize(targetPath) + ", " + Serialize(expectedContent) + ",'utf8'); });");
@@ -48,7 +46,7 @@ namespace YUNoAMD.Test.Can_build_requireJS_environment
 
             it("supports mkdirSync", delegate()
             {
-                var otherDirectory = Path.Combine(testDirectory, "CreatedByNativeFS");
+                var otherDirectory = Path.Combine(testFolder.FullName, "CreatedByNativeFS");
 
                 expect(() => !Directory.Exists(otherDirectory));
 
@@ -62,7 +60,7 @@ namespace YUNoAMD.Test.Can_build_requireJS_environment
 
             it("supports rmdirSync", delegate()
             {
-                var otherDirectory = Path.Combine(testDirectory, "CreatedByNativeFS");
+                var otherDirectory = Path.Combine(testFolder.FullName, "CreatedByNativeFS");
 
                 Directory.CreateDirectory(otherDirectory);
 
@@ -153,16 +151,14 @@ require(['fs', 'print'], function(fs, print) {
             {
                 it("lists file and directory names", delegate()
                 {
-                    Directory.CreateDirectory(testDirectory);
-
-                    File.WriteAllText(Path.Combine(testDirectory, "foo.txt"), "123");
-                    File.WriteAllText(Path.Combine(testDirectory, "bar.html"), "123");
-                    File.WriteAllText(Path.Combine(testDirectory, "baz.css"), "123");
-                    Directory.CreateDirectory(Path.Combine(testDirectory, "qux"));
+                    Directory.CreateDirectory(Path.Combine(testFolder.FullName, "qux"));
+                    File.WriteAllText(Path.Combine(testFolder.FullName, "foo.txt"), "123");
+                    File.WriteAllText(Path.Combine(testFolder.FullName, "bar.html"), "123");
+                    File.WriteAllText(Path.Combine(testFolder.FullName, "baz.css"), "123");
 
                     var readdirScript = @"
 require(['fs', 'print'], function(fs, print) { 
-    var names = fs.readdirSync(" + Serialize(testDirectory) + @");
+    var names = fs.readdirSync(" + Serialize(testFolder.FullName) + @");
     print.apply(null, names);
 });";
                     context.compiler.Execute(readdirScript);

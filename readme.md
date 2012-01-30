@@ -7,17 +7,8 @@ implement the next module (file) so the read/write code is actually going somewh
         
 need to implement module path
 
-YUNoAMD\requireJS\build\jslib\node\file.js:10:define(['fs', 'path'], function (fs, path) {
-YUNoAMD\requireJS\build\jslib\node\file.js:13:        if (!path.existsSync(dir)) {
-YUNoAMD\requireJS\build\jslib\node\file.js:23:            //First part may be empty string if path starts with a slash.
-YUNoAMD\requireJS\build\jslib\node\file.js:40:            return path.existsSync(fileName);
-YUNoAMD\requireJS\build\jslib\node\file.js:50:         * Gets the absolute file path as a string, normalized
-YUNoAMD\requireJS\build\jslib\node\file.js:51:         * to using front slashes for path separators.
-YUNoAMD\requireJS\build\jslib\node\file.js:54:        absPath: function (fileName) {
 YUNoAMD\requireJS\build\jslib\node\file.js:55:            return path.normalize(fs.realpathSync(fileName).replace(/\\/g
 , '/'));
-YUNoAMD\requireJS\build\jslib\node\file.js:59:            return path.normalize(fileName);
-YUNoAMD\requireJS\build\jslib\node\file.js:62:        isFile: function (path) {
 YUNoAMD\requireJS\build\jslib\node\file.js:63:            return fs.statSync(path).isFile();
 YUNoAMD\requireJS\build\jslib\node\file.js:66:        isDirectory: function (path) {
 YUNoAMD\requireJS\build\jslib\node\file.js:67:            return fs.statSync(path).isDirectory();

@@ -14,6 +14,7 @@ namespace YUNoAMD
         private ScriptEngine _jsEngine;
         IOAdapter _ioAdapter;
         NativeFS _fs;
+        NativePath _path;
         
         public RequireJsCompiler(TextWriter consoleOut, string currentDirectory)
         {
@@ -30,6 +31,9 @@ namespace YUNoAMD
             _fs = new NativeFS(_jsEngine, currentDirectory);
             _jsEngine.SetGlobalValue("YUNoFS", _fs);
 
+            _path = new NativePath(_jsEngine, currentDirectory);
+            _jsEngine.SetGlobalValue("YUNoPath", _path);
+
             _ioAdapter = new IOAdapter(_jsEngine, consoleOut);
 
             _jsEngine.SetGlobalFunction("load", (Action<string>)_ioAdapter.load);
@@ -42,6 +46,7 @@ namespace YUNoAMD
             SetupModuleFromResource(RequireJsCompiler.ResourceBaseUrl + "build.js", @"build\build.js");
             SetupModuleFromResource(RequireJsCompiler.ResourceBaseUrl + "print.js", @"build\jslib\yunoamd\print.js");
             SetupModuleFromResource(RequireJsCompiler.ResourceBaseUrl + "fs.js", @"build\jslib\yunoamd\fs.js");
+            SetupModuleFromResource(RequireJsCompiler.ResourceBaseUrl + "path.js", @"build\jslib\yunoamd\path.js");
         }
 
         private delegate void PrintDelegate(params string[] messages);

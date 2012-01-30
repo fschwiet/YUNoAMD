@@ -8,21 +8,10 @@ using Jurassic.Library;
 
 namespace YUNoAMD.Native
 {
-    public class NativeFS : NativeBase
+    public class NativeFS : NativeFileLocation
     {
-        private readonly string _currentPath;
-
-        public NativeFS(ScriptEngine engine, string currentPath) : base(engine)
+        public NativeFS(ScriptEngine engine, string currentPath) : base(engine, currentPath)
         {
-            _currentPath = currentPath;
-        }
-
-        private string AbsolutePath(string path)
-        {
-            if (path.StartsWith("."))
-                path = path.Substring(1).TrimStart('\\', '/');
-
-            return Path.Combine(_currentPath, path);
         }
 
         [JSFunction(Name = "writeFileSync")]
