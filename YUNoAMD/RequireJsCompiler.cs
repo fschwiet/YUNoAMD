@@ -19,6 +19,7 @@ namespace YUNoAMD
         public RequireJsCompiler(TextWriter consoleOut, string currentDirectory)
         {
             _jsEngine = new ScriptEngine();
+            _jsEngine.CompatibilityMode = CompatibilityMode.ECMAScript3;
 
             _jsEngine.Evaluate(LoadResource("require.js"));
             _jsEngine.Evaluate(LoadResource("json2.js"));
