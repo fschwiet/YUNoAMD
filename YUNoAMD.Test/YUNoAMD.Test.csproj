@@ -63,6 +63,7 @@
     <Compile Include="Can_build_requireJS_environment\borrows_module_file.cs" />
     <Compile Include="Can_build_requireJS_environment\defines_module_args.cs" />
     <Compile Include="Can_build_requireJS_environment\defines_module_fs.cs" />
+    <Compile Include="Can_build_requireJS_environment\defines_module_load.cs" />
     <Compile Include="Can_build_requireJS_environment\defines_module_path.cs" />
     <Compile Include="Can_build_requireJS_environment\defines_module_print.cs" />
     <Compile Include="Can_build_requireJS_environment\has_warn_as_global.cs" />
