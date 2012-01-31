@@ -60,6 +60,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Can_build_requireJS_environment\borrows_module_file.cs" />
     <Compile Include="Can_build_requireJS_environment\defines_module_args.cs" />
     <Compile Include="Can_build_requireJS_environment\defines_module_fs.cs" />
     <Compile Include="Can_build_requireJS_environment\defines_module_path.cs" />

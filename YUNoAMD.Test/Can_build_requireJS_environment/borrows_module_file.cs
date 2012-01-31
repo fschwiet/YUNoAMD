@@ -1,0 +1,39 @@
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using NJasmine;
+
+namespace YUNoAMD.Test.Can_build_requireJS_environment
+{
+    public class borrows_module_file : GivenWhenThenFixture
+    {
+        public override void Specify()
+        {
+            describe("the file module provided for node only needs fs and path", delegate()
+            {
+                var testFolder = new TestFolder(this);
+            
+                var context = new CompilerUsage(this, testFolder.FullName);
+
+                var folderToCreate = arrange(() => Path.Combine(testFolder.FullName, "filetest"));
+                
+                it("allows path to be used", delegate()
+                {
+                    var script = @"
+require(['env!env/args', 'file'],
+    function (file) {
+        file.mkDir(args[0]);
+    });
+";
+                    expect(() => !Directory.Exists(folderToCreate));
+
+                    context.compiler.RunWithArguments(script, new[] { folderToCreate });
+
+                    expect(() => Directory.Exists(folderToCreate));
+                });
+            });
+        }
+    }
+}

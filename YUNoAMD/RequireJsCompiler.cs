@@ -47,6 +47,7 @@ namespace YUNoAMD
             SetupModuleFromResource(RequireJsCompiler.ResourceBaseUrl + "print.js", @"build\jslib\yunoamd\print.js");
             SetupModuleFromResource(RequireJsCompiler.ResourceBaseUrl + "fs.js", @"build\jslib\yunoamd\fs.js");
             SetupModuleFromResource(RequireJsCompiler.ResourceBaseUrl + "path.js", @"build\jslib\yunoamd\path.js");
+            SetupModuleFromResource(RequireJsCompiler.ResourceBaseUrl + "file.js", @"build\jslib\node\file.js");
         }
 
         private delegate void PrintDelegate(params string[] messages);
