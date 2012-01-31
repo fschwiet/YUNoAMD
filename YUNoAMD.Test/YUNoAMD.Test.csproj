@@ -69,7 +69,7 @@
     <Compile Include="Can_build_requireJS_environment\has_warn_as_global.cs" />
     <Compile Include="Can_build_requireJS_project.cs" />
     <Compile Include="CompilerUsage.cs" />
-    <Compile Include="Jurassic_evaluate_uses_outer_context.cs" />
+    <Compile Include="Jurassic_evaluate_uses_current_context.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestFolder.cs" />
   </ItemGroup>

@@ -8,7 +8,7 @@ using NJasmine;
 
 namespace YUNoAMD.Test
 {
-    public class Jurassic_evaluate_uses_outer_context : GivenWhenThenFixture
+    public class Jurassic_evaluate_uses_current_context : GivenWhenThenFixture
     {
         public override void Specify()
         {
