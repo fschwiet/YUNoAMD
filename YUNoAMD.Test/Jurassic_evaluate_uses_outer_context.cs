@@ -20,9 +20,10 @@ namespace YUNoAMD.Test
 
                 engine.SetGlobalValue("foo", evaluator);
 
-                var result = engine.Evaluate("var x = 16; (function(x) { return foo.evaluateAndDouble('x');})(2)");
+                var result1 = engine.Evaluate("var x = 16; (function(x) { return foo.evaluateAndDouble1('x');})(2)");
+                var result2 = engine.Evaluate("var x = 16; (function(x) { return foo.evaluateAndDouble1('x');})(2)");
 
-                expect(() => (int)result == 4);
+                expect(() => (int)result1 == (int)result2 && (int)result1 == 4);
             });
         }
 
@@ -36,10 +37,16 @@ namespace YUNoAMD.Test
                 this.PopulateFunctions();
             }
 
-            [JSFunction(Name = "evaluateAndDouble")]
-            public int evaluateAndDouble(string expression)
+            [JSFunction(Name = "evaluateAndDouble1")]
+            public int evaluateAndDouble1(string expression)
             {
-                return (int)_engine.Evaluate(expression) * 2; 
+                return (int)_engine.Evaluate(expression) * 2;
+            }
+
+            [JSFunction(Name = "evaluateAndDouble2", Flags = JSFunctionFlags.HasEngineParameter)]
+            public static int evaluateAndDouble2(ScriptEngine engine, string expression)
+            {
+                return (int)engine.Evaluate(expression) * 2;
             }
         }
     }
