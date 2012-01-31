@@ -21,7 +21,7 @@ namespace YUNoAMD.Test
                 engine.SetGlobalValue("foo", evaluator);
 
                 var result1 = engine.Evaluate("var x = 16; (function(x) { return foo.evaluateAndDouble1('x');})(2)");
-                var result2 = engine.Evaluate("var x = 16; (function(x) { return foo.evaluateAndDouble1('x');})(2)");
+                var result2 = engine.Evaluate("var x = 16; (function(x) { return foo.evaluateAndDouble2('x');})(2)");
 
                 expect(() => (int)result1 == (int)result2 && (int)result1 == 4);
             });
