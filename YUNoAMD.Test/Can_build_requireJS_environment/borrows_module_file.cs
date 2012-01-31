@@ -17,21 +17,21 @@ namespace YUNoAMD.Test.Can_build_requireJS_environment
             
                 var context = new CompilerUsage(this, testFolder.FullName);
 
-                var folderToCreate = arrange(() => Path.Combine(testFolder.FullName, "filetest"));
+                var fileToWrite = arrange(() => Path.Combine(testFolder.FullName, "file.txt"));
                 
                 it("allows path to be used", delegate()
                 {
                     var script = @"
 require(['env!env/args', 'file'],
-    function (file) {
-        file.mkDir(args[0]);
+    function (args, file) {
+        file.saveUtf8File(args[0], 'hello, world');
     });
 ";
-                    expect(() => !Directory.Exists(folderToCreate));
+                    expect(() => !File.Exists(fileToWrite));
 
-                    context.compiler.RunWithArguments(script, new[] { folderToCreate });
+                    context.compiler.RunWithArguments(script, new[] { fileToWrite });
 
-                    expect(() => Directory.Exists(folderToCreate));
+                    expect(() => File.ReadAllText(fileToWrite) == "hello, world");
                 });
             });
         }

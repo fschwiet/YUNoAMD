@@ -65,15 +65,15 @@ require(['path', 'print'], function(path, print) {
                 context.ExpectLines(@"c:\test",@"c:\test\second",@"c:\test\second\",@"c:\test\second\third");
             });
 
-            it("supports path", delegate()
+            it("supports dirname", delegate()
             {
                 var otherFile = Path.Combine(testFolder.FullName, "foo\\bar\\baz.txt");
 
                 var script = @"
 require(['path', 'print'], function(path, print) { 
-    var topPath = path.path(" + Serialize(otherFile)+ @");
+    var topPath = path.dirname(" + Serialize(otherFile)+ @");
     print(topPath);
-    var secondPath = path.path(topPath);
+    var secondPath = path.dirname(topPath);
     print(secondPath);
 });";
                 context.compiler.Execute(script);
