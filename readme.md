@@ -1,4 +1,4 @@
-:TROLLFACE:
+:trollface:
 
 pending question on jurassic: http://jurassic.codeplex.com/discussions/287820#post732435
 
